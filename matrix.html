@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHENG YANG // THE ORACLE SYSTEM</title>
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Matrix Base Variable Palettes */
+        :root {
+            --bg-pure: #000000;
+            --matrix-green: #00ff41;
+            --matrix-green-glow: rgba(0, 255, 65, 0.35);
+            --matrix-dark-green: #003b00;
+            --matrix-text-main: #d2ffd6;
+            --matrix-border: rgba(0, 255, 65, 0.15);
+            --matrix-border-glow: rgba(0, 255, 65, 0.4);
+            --glass-bg: rgba(0, 5, 0, 0.85);
+            --red-pill: #ff003c;
+            --blue-pill: #0076ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: cell;
+        }
+
+        body {
+            background-color: var(--bg-pure);
+            color: var(--matrix-text-main);
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Matrix Canvas Rain Background */
+        #matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            opacity: 0.35;
+        }
+
+        /* Scanlines Overlay effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Dark Vignette */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,0.9) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Core Glassmorphic Container */
+        .matrix-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Glowing Terminal Headers */
+        header {
+            border: 1px solid var(--matrix-border-glow);
+            background: var(--glass-bg);
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--matrix-green), transparent);
+            animation: scanLineMove 3s infinite linear;
+        }
+
+        @keyframes scanLineMove {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(400px); }
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--matrix-border);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .system-status {
+            font-size: 14px;
+            color: var(--matrix-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--matrix-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .logo-box h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--matrix-green-glow);
+        }
+
+        .logo-box h1 span {
+            color: var(--matrix-green);
+        }
+
+        .logo-box p {
+            font-size: 14px;
+            color: var(--matrix-text-main);
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* Pill Reality Selector */
+        .reality-selector {
+            background: var(--glass-bg);
+            border: 1px solid var(--matrix-border);
+            border-radius: 4px;
+            padding: 25px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .reality-selector h3 {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .pills-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pill-btn {
+            background: transparent;
+            border: 2px solid currentColor;
+            padding: 12px 30px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pill-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: currentColor;
+            opacity: 0.15;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .pill-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .pill-red {
+            color: var(--red-pill);
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+        }
+
+        .pill-red:hover, .pill-red.active {
+            background: var(--red-pill);
+            color: #ffffff;
+            box-shadow: 0 0 20px var(--red-pill);
+        }
+
+        .pill-blue {
+            color: var(--blue-pill);
+            box-shadow: 0 0 10px rgba(0, 118, 255, 0.2);
+        }
+
+        .pill-blue:hover, .pill-blue.active {
+            background: var(--blue-pill);
+            color: #ffffff;
+            box-shadow: 0 0 20px var(--blue-pill);
+        }
+
+        .pill-unplug {
+            color: var(--matrix-green);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        .pill-unplug:hover, .pill-unplug.active {
+            background: var(--matrix-green);
+            color: #000000;
+            box-shadow: 0 0 20px var(--matrix-green);
+        }
+
+        /* Info Display Blocks */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .matrix-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--matrix-border-glow);
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--matrix-green);
+            padding-left: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title span {
+            font-size: 12px;
+            color: var(--matrix-green);
+            opacity: 0.7;
+        }
+
+        /* Code/Terminal Look Program blocks */
+        .program-block {
+            border: 1px solid var(--matrix-border);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .program-block:hover {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.15);
+            transform: scale(1.01);
+        }
+
+        .program-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed var(--matrix-border);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .program-id {
+            color: var(--matrix-green);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .program-tag {
+            font-size: 11px;
+            background: rgba(0, 255, 65, 0.1);
+            color: var(--matrix-green);
+            padding: 2px 8px;
+            border-radius: 2px;
+            border: 1px solid var(--matrix-border);
+        }
+
+        .program-desc {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: var(--matrix-text-main);
+            opacity: 0.9;
+        }
+
+        .program-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            border-top: 1px dashed var(--matrix-border);
+            padding-top: 10px;
+        }
+
+        .stat-node {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 5px var(--matrix-green-glow);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--matrix-green);
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        /* Console Log Simulator */
+        .matrix-console {
+            background: #000000;
+            border: 1px solid var(--matrix-green);
+            border-radius: 4px;
+            padding: 20px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            height: 350px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 15px rgba(0, 255, 65, 0.2);
+            color: var(--matrix-green);
+            margin-bottom: 20px;
+        }
+
+        .console-line {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .c-prompt {
+            color: #ffffff;
+        }
+
+        .c-success {
+            color: #00ff00;
+        }
+
+        .c-warn {
+            color: var(--red-pill);
+            text-shadow: 0 0 4px var(--red-pill);
+        }
+
+        .btn-console {
+            background: transparent;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 8px 16px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .btn-console:hover {
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 10px var(--matrix-green-glow);
+            color: #ffffff;
+        }
+
+        /* Interactive Uplink Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skill-node-card {
+            border: 1px solid var(--matrix-border);
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 2px;
+        }
+
+        .skill-node-title {
+            color: #ffffff;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--matrix-border);
+            padding-bottom: 5px;
+        }
+
+        .pill-tag {
+            display: inline-block;
+            font-size: 12px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid var(--matrix-border);
+            color: var(--matrix-green);
+            padding: 4px 10px;
+            margin: 3px;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .pill-tag:hover {
+            border-color: var(--matrix-green);
+            background: rgba(0, 255, 65, 0.15);
+            box-shadow: 0 0 8px var(--matrix-green-glow);
+        }
+
+        /* Decrypted Timeline */
+        .zion-timeline {
+            border-left: 2px dashed var(--matrix-green);
+            padding-left: 25px;
+            margin-left: 10px;
+        }
+
+        .zion-node {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .zion-node::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--matrix-green);
+            border: 2px solid #000;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        .node-time {
+            color: var(--matrix-green);
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .node-title {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .node-sub {
+            font-size: 12px;
+            color: var(--matrix-green);
+            opacity: 0.8;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .node-body {
+            font-size: 13px;
+            color: var(--matrix-text-main);
+            opacity: 0.85;
+        }
+
+        /* Broadcaster Connection Panel (Contact) */
+        .broadcaster-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--matrix-border-glow);
+            border-radius: 4px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.08);
+            margin-top: 4px;
+        }
+
+        .broadcaster-panel h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px var(--matrix-green-glow);
+        }
+
+        .broadcast-channels {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .b-channel {
+            text-decoration: none;
+            color: var(--matrix-green);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .b-channel:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px var(--matrix-green);
+            transform: translateY(-2px);
+        }
+
+        .b-icon {
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border: 1px solid var(--matrix-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .b-channel:hover .b-icon {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 15px var(--matrix-green-glow);
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            border-top: 1px solid var(--matrix-border);
+            padding: 30px 0;
+            text-align: center;
+            font-size: 12px;
+            color: var(--matrix-green);
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas Animation Background -->
+    <canvas id="matrix-rain"></canvas>
+    
+    <!-- Visual overlays for scanlines and shadows -->
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+
+    <div class="matrix-container">
+
+        <!-- Glowing Header -->
+        <header>
+            <div class="header-top">
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    Broadcasting from Nebuchadnezzar // System Active
+                </div>
+                <div style="font-size: 13px; color: var(--matrix-green);">PORT: 8888</div>
+            </div>
+            <div class="logo-box">
+                <h1>CHENG YANG // <span>THE ORACLE SYSTEM</span></h1>
+                <p>Digital Media Architect ∩ AI RPA Orchestrator // Johnny Mnemonic Node</p>
+            </div>
+        </header>
+
+        <!-- Red Pill / Blue Pill Interactive Choice Filter -->
+        <div class="reality-selector">
+            <h3>CHOICE OF REALITY — CHOOSE YOUR COGNITIVE UPLINK</h3>
+            <p style="font-size:14px; opacity: 0.8; max-width: 600px; margin: 0 auto 15px auto;">
+                "You take the blue pill... the story ends, you wake up in your bed and believe whatever you want to believe. You take the red pill... you stay in Wonderland, and I show you how deep the rabbit hole goes."
+            </p>
+            <div class="pills-container">
+                <button class="pill-btn pill-red" onclick="filterReality('red')">🔴 Red Pill (Creative MA)</button>
+                <button class="pill-btn pill-blue" onclick="filterReality('blue')">🔵 Blue Pill (AI & Tech MBA)</button>
+                <button class="pill-btn pill-unplug active" onclick="filterReality('all')">🟢 Unplugged (Combined Reality)</button>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            
+            <!-- Left Column: Classified Program Pipelines -->
+            <div>
+                <section class="matrix-section">
+                    <div class="section-title">
+                        Classified Decrypted Programs
+                        <span>Pipeline Registry [4 active]</span>
+                    </div>
+
+                    <!-- Program 1 -->
+                    <div class="program-block red-program all-program">
+                        <div class="program-header">
+                            <span class="program-id">[Prog 01] // SHORT_DRAMA_FORECASTER</span>
+                            <span class="program-tag">SciPy Curve Fit / Random Forest</span>
+                        </div>
+                        <p class="program-desc">
+                            Inferences Lifetime Value (LTV) monetization algorithms on vertical short dramas. Maps early episode user drop-off indices utilizing non-linear least squares curve optimization to evaluate ad pacing ROI parameters and predict user paywall penetration indices.
+                        </p>
+                        <div class="program-stats">
+                            <div class="stat-node">
+                                <div class="stat-value">95.40%</div>
+                                <div class="stat-label">R² Accuracy</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">SciPy Pop</div>
+                                <div class="stat-label">Fit Optimizer</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">ROI Alert</div>
+                                <div class="stat-label">Auto-Budget Trigger</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program 2 -->
+                    <div class="program-block red-program all-program">
+                        <div class="program-header">
+                            <span class="program-id">[Prog 02] // DRAMA_GENERATIVE_PIPELINE</span>
+                            <span class="program-tag">Kokoro MLX / ChatTTS / ComfyUI</span>
+                        </div>
+                        <p class="program-desc">
+                            Automated media generation pipeline. Parses screenplays, allocates dynamic character-specific vocal models, generates word-synchronized SRT subtitle matrix tracks, and compiles consistent SVD vertical video assets for localized distribution networks.
+                        </p>
+                        <div class="program-stats">
+                            <div class="stat-node">
+                                <div class="stat-value">Kokoro</div>
+                                <div class="stat-label">Speech Engine</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">Seed 313</div>
+                                <div class="stat-label">Consistent Vocals</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">60% Faster</div>
+                                <div class="stat-label">Media Render</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program 3 -->
+                    <div class="program-block blue-program all-program">
+                        <div class="program-header">
+                            <span class="program-id">[Prog 03] // YT_COPYRIGHT_AUDITOR</span>
+                            <span class="program-tag">Pandas / SQLite3 Database</span>
+                        </div>
+                        <p class="program-desc">
+                            Consolidates thousands of daily UGC video claims into active auditable registers. De-duplicates concurrent timeline regional registers across timezones, integrates claims with master catalogues, and triggers priority alarms for premium assets.
+                        </p>
+                        <div class="program-stats">
+                            <div class="stat-node">
+                                <div class="stat-value">80%</div>
+                                <div class="stat-label">Time Saved</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">99.8%</div>
+                                <div class="stat-label">Audit Match</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">Instant</div>
+                                <div class="stat-label">Target Alert</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program 4 -->
+                    <div class="program-block blue-program all-program">
+                        <div class="program-header">
+                            <span class="program-id">[Prog 04] // CAREERSCOUT_RPA_SUITE</span>
+                            <span class="program-tag">Chrome MV3 / HTML Prototype Overrides</span>
+                        </div>
+                        <p class="program-desc">
+                            Autonomous browser-state injection tool. Features a backend Python-based vector scanner utilizing double-bag-of-words keyword indexing matching and a native MV3 content injector that overrides DOM setter properties to sync virtual React/Vue view-state controls.
+                        </p>
+                        <div class="program-stats">
+                            <div class="stat-node">
+                                <div class="stat-value">100%</div>
+                                <div class="stat-label">Virtual DOM Sync</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">Chrome MV3</div>
+                                <div class="stat-label">Injected Script</div>
+                            </div>
+                            <div class="stat-node">
+                                <div class="stat-value">&lt; 3s</div>
+                                <div class="stat-label">LLM Solve Time</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- Decoded Chronology (Experience) -->
+                <section class="matrix-section">
+                    <div class="section-title">
+                        Decoded Chronological Streams
+                        <span>Historical Matrix Nodes</span>
+                    </div>
+
+                    <div class="zion-timeline">
+                        <!-- Experience 1 -->
+                        <div class="zion-node blue-program all-program">
+                            <span class="node-time">April 2025 – Present</span>
+                            <h3 class="node-title">Video Rights Operations / Digital Product Operations</h3>
+                            <span class="node-sub">Vobile Inc. — Los Angeles, CA</span>
+                            <p class="node-body">
+                                Manages mass UGC digital claims utilizing RightsID tracking programs. Engineered Pandas script modules that merge regional claim entries, and designed native unpacked extensions to automate internal operational QA matrices.
+                            </p>
+                        </div>
+
+                        <!-- Experience 2 -->
+                        <div class="zion-node red-program all-program">
+                            <span class="node-time">2017 – Present</span>
+                            <h3 class="node-title">Producer, Screenwriter & Content Automation Architect</h3>
+                            <span class="node-sub">FilmSnap LLC / IMC Film — Burbank, CA</span>
+                            <p class="node-body">
+                                Performs script localization, structural editing, and adaptation of cinematic vertical drama screenplays. Created local TTS synthesis pipelines using ChatTTS and ComfyUI workflows to automate post-production video editing schedules.
+                            </p>
+                        </div>
+
+                        <!-- Experience 3 -->
+                        <div class="zion-node blue-program all-program">
+                            <span class="node-time">2022 – 2025</span>
+                            <h3 class="node-title">MBA in Digital & Strategic Marketing</h3>
+                            <span class="node-sub">Westcliff University — Irvine, CA</span>
+                            <p class="node-body">
+                                Studied corporate governance systems, digital market indicators, and financial ROI structures to evaluate data pipelines in modern creative studio ecosystems.
+                            </p>
+                        </div>
+
+                        <!-- Experience 4 -->
+                        <div class="zion-node red-program all-program">
+                            <span class="node-time">2016 – 2017</span>
+                            <h3 class="node-title">Master of Arts (MA) in Filmmaking</h3>
+                            <span class="node-sub">New York Film Academy — Burbank, CA</span>
+                            <p class="node-body">
+                                Acquired classical screenplay structuring, directing grammar, cinematic editing pacing, and visual storytelling theory.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Interactive Deck & Skills uplink -->
+            <div>
+                <!-- Operator Console Sandbox Simulator -->
+                <section class="matrix-section">
+                    <div class="section-title">Operator console</div>
+                    <div class="matrix-console" id="m-console">
+                        <div class="console-line c-success">Initializing decryption protocols... SUCCESS</div>
+                        <div class="console-line">Establish secure matrix terminal.</div>
+                        <div class="console-line">Ready to execute tactical subsystems.</div>
+                        <div class="console-line c-prompt">cheng@mac ~ % <span style="color:#ffffff;">click buttons below to run...</span></div>
+                    </div>
+                    
+                    <button class="btn-console" onclick="runMatrixDemo(1)">▶ Decrypt Prog 01 (Forecaster)</button>
+                    <button class="btn-console" onclick="runMatrixDemo(2)">▶ Decrypt Prog 02 (TTS / Subtitle)</button>
+                    <button class="btn-console" onclick="runMatrixDemo(3)">▶ Decrypt Prog 03 (Claims Audit)</button>
+                    <button class="btn-console" onclick="runMatrixDemo(4)">▶ Decrypt Prog 04 (CareerScout RPA)</button>
+                </section>
+
+                <!-- Neural Skill Uplink -->
+                <section class="matrix-section">
+                    <div class="section-title">Neural Skill Uplink</div>
+                    <div class="skills-grid">
+                        <div class="skill-node-card blue-program all-program" style="grid-column: span 2;">
+                            <div class="skill-node-title">🦾 Agentic & Automation Uplink</div>
+                            <span class="pill-tag">Python (Pandas/NumPy)</span>
+                            <span class="pill-tag">Chrome Extensions (MV3)</span>
+                            <span class="pill-tag">DOM Prototype Overrides</span>
+                            <span class="pill-tag">Gemini & OpenAI API</span>
+                            <span class="pill-tag">ATS APIs (Greenhouse/Lever)</span>
+                            <span class="pill-tag">SQLite3 / SQLite-utils</span>
+                            <span class="pill-tag">Bash Shell Scripting</span>
+                            <span class="pill-tag">Git Version Control</span>
+                        </div>
+                        <div class="skill-node-card red-program all-program" style="grid-column: span 2;">
+                            <div class="skill-node-title">🎥 Cinematic & Media Uplink</div>
+                            <span class="pill-tag">RightsID Claim Auditing</span>
+                            <span class="pill-tag">UGC Copyright Compliance</span>
+                            <span class="pill-tag">Kokoro MLX & ChatTTS</span>
+                            <span class="pill-tag">ComfyUI & SVD Nodes</span>
+                            <span class="pill-tag">Final Draft Scriptwriting</span>
+                            <span class="pill-tag">AVOD / FAST Networks</span>
+                            <span class="pill-tag">Adobe Premiere Pro</span>
+                            <span class="pill-tag">Tableau / Salesforce</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+
+        <!-- Broadcaster Connection -->
+        <section class="broadcaster-panel">
+            <h2>TRANSMIT SIGNAL TO THE NEBUCHADNEZZAR</h2>
+            <p style="font-size: 14px; opacity: 0.8; margin-bottom: 20px;">Establishing direct encrypted communication channel. Select transmission vector:</p>
+            <div class="broadcast-channels">
+                <a href="mailto:cyang8319@gmail.com" class="b-channel">
+                    <div class="b-icon">✉</div>
+                    <span style="font-weight: bold;">Email Uplink</span>
+                    <span style="font-size: 11px; color: var(--matrix-text-main); opacity: 0.7;">cyang8319@gmail.com</span>
+                </a>
+                <a href="tel:626-615-1495" class="b-channel">
+                    <div class="b-icon">📞</div>
+                    <span style="font-weight: bold;">Voice Signal</span>
+                    <span style="font-size: 11px; color: var(--matrix-text-main); opacity: 0.7;">626-615-1495</span>
+                </a>
+                <a href="https://www.linkedin.com/in/lockstock/" target="_blank" class="b-channel">
+                    <div class="b-icon">🤝</div>
+                    <span style="font-weight: bold;">LinkedIn Node</span>
+                    <span style="font-size: 11px; color: var(--matrix-text-main); opacity: 0.7;">/in/lockstock</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Johnny Mnemonic. Decoded with Advanced AI Orchestration. Zion Mainframe System.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        /* Matrix Rain Canvas Animation */
+        const canvas = document.getElementById('matrix-rain');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const alphabet = katakana.split('');
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const rainDrops = [];
+
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+                
+                // Glowing Head logic
+                if (Math.random() > 0.985) {
+                    ctx.fillStyle = '#ffffff';
+                } else {
+                    ctx.fillStyle = '#00ff41';
+                }
+
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        setInterval(draw, 33);
+
+        /* Reality Selection Filtering Logic (Red/Blue Pill) */
+        function filterReality(type) {
+            // Update active pill button style
+            document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
+            if (type === 'red') document.querySelector('.pill-red').classList.add('active');
+            else if (type === 'blue') document.querySelector('.pill-blue').classList.add('active');
+            else document.querySelector('.pill-unplug').classList.add('active');
+
+            // Trigger visual terminal feed
+            const con = document.getElementById('m-console');
+            con.innerHTML += `<div class="console-line c-warn">» Reality Shift Triggered: [MODE: ${type.toUpperCase()}]</div>`;
+            con.scrollTop = con.scrollHeight;
+
+            // Simple element filter animation
+            const redPrograms = document.querySelectorAll('.red-program');
+            const bluePrograms = document.querySelectorAll('.blue-program');
+            const allPrograms = document.querySelectorAll('.all-program');
+
+            if (type === 'red') {
+                allPrograms.forEach(el => el.style.display = 'none');
+                redPrograms.forEach(el => {
+                    el.style.display = 'block';
+                    el.style.animation = 'glitchAnim 0.3s ease';
+                });
+            } else if (type === 'blue') {
+                allPrograms.forEach(el => el.style.display = 'none');
+                bluePrograms.forEach(el => {
+                    el.style.display = 'block';
+                    el.style.animation = 'glitchAnim 0.3s ease';
+                });
+            } else {
+                allPrograms.forEach(el => {
+                    el.style.display = 'block';
+                    el.style.animation = 'glitchAnim 0.3s ease';
+                });
+            }
+        }
+
+        /* Interactive Console Subsystem Decryption Simulation */
+        function runMatrixDemo(id) {
+            const con = document.getElementById('m-console');
+            let output = "";
+
+            if (id === 1) {
+                output = `
+<div class="console-line c-prompt">cheng@mac ~ % python3 forecast_engine.py --fit</div>
+<div class="console-line c-success">=== DECRYPTED FORECASTER CORE ===</div>
+<div class="console-line">Inferences viewership drop-off matrix...</div>
+<div class="console-line">Solving SciPy optimization parameters:</div>
+<div class="console-line c-success">&nbsp;&nbsp;[Fit Metrics] Computed decay fit: λ = 0.1162</div>
+<div class="console-line c-success">&nbsp;&nbsp;[Predictive Inference] R² Fit accuracy score: 95.40%</div>
+<div class="console-line c-warn">&nbsp;&nbsp;[Budget Alert] ROI computed: -22.87% (🛑 Stop Ad-spend / Shift tracking)</div>
+                `;
+            } else if (id === 2) {
+                output = `
+<div class="console-line c-prompt">cheng@mac ~ % python3 tts_orchestrator.py --vocal-match</div>
+<div class="console-line c-success">=== DECRYPTED LOCAL AUDIO SYNTHESIS ===</div>
+<div class="console-line">Loading vocal seeds... Matching screenplay tags:</div>
+<div class="console-line c-success">&nbsp;&nbsp;[Seed Active] ChatTTS Chinese vocal profile seed 313 locked (Elena role)</div>
+<div class="console-line c-success">&nbsp;&nbsp;[MLX Active] Speech pipe: Kokoro EN vocal model initiated (M3 Max hardware)</div>
+<div class="console-line">&nbsp;&nbsp;[SRT Active] Generated word-aligned captions table: episode_03_sub.srt</div>
+<div class="console-line c-success">&nbsp;&nbsp;[FFmpeg multiplex] Compiled structural scene SVD asset successfully!</div>
+                `;
+            } else if (id === 3) {
+                output = `
+<div class="console-line c-prompt">cheng@mac ~ % python3 AlwayBClaiming.py --audit</div>
+<div class="console-line c-success">=== DECRYPTED RIGHTS AUDITOR REGISTRY ===</div>
+<div class="console-line">Loading Vobile daily UGC claiming report streams...</div>
+<div class="console-line">&nbsp;&nbsp;[De-duplication] Merged 48,930 active registry rows.</div>
+<div class="console-line c-success">&nbsp;&nbsp;[Reconciliation] timezone adjustments consolidated: dropped 4,120 identical claims.</div>
+<div class="console-line c-success">&nbsp;&nbsp;[IP Scan Alarms] Target locked: Isolated 354 priority Rick and Morty signals.</div>
+                `;
+            } else if (id === 4) {
+                output = `
+<div class="console-line c-prompt">cheng@mac ~ % python3 career_scout_suite.py --inject</div>
+<div class="console-line c-success">=== DECRYPTED CHROMEMV3 RPA SCRIPT ===</div>
+<div class="console-line">Activating content_script.js injector on current window:</div>
+<div class="console-line c-success">&nbsp;&nbsp;[DOM Overrides] Overrode HTMLInputElement.prototype event handler.</div>
+<div class="console-line c-success">&nbsp;&nbsp;[React DOM Sync] Synchronized virtual State listener on active form fields.</div>
+<div class="console-line c-success">&nbsp;&nbsp;[Form Autofill] pre-filled Greenhouse fields successfully inside 100% state constraints!</div>
+                `;
+            }
+
+            con.innerHTML += output;
+            con.scrollTop = con.scrollHeight;
+        }
+    </script>
+</body>
+</html>
