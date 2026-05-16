@@ -1342,20 +1342,20 @@
                     </div>
                     <h3>5. ChaosGuard: Adaptive Bayesian Scheduler (v9.0 Flagship)</h3>
                     <p>
-                        An environment-aware scheduling engine designed to mimic human cognitive irregularity. It utilizes a **10,000 Prime Domain (1,229 seeds)** to eliminate statistical frequency peaks, coupled with a Bayesian Feedback Loop that "senses" server latency. Features **Dual-Profile Interaction (Smooth vs. High-Contrast)** to mimic specific human cognitive states during long-form Web/LLM sessions.
+                        A production-grade, anti-detection scheduling engine engineered to mimic <strong>human-like behavioral entropy</strong>. It leverages a <strong>10,000 Prime Domain (1,229 seeds)</strong> to neutralize statistical frequency peaks, governed by a <strong>Bayesian Feedback Loop</strong> that monitors real-time environmental pressure. Integrates <strong>Dual-Profile Tactical Switching</strong> (Smooth vs. High-Contrast) to adapt to varied cognitive workloads in LLM-driven automation.
                     </p>
                     <div class="project-metrics">
                         <div class="metric-item">
                             <span class="metric-value">1229 Primes</span>
-                            <span class="metric-label">Entropy Domain</span>
+                            <span class="metric-label">Entropy Depth</span>
                         </div>
                         <div class="metric-item">
                             <span class="metric-value">Dual-Profile</span>
-                            <span class="metric-label">Contrast vs Smooth</span>
+                            <span class="metric-label">Tactical Modes</span>
                         </div>
                         <div class="metric-item">
                             <span class="metric-value">Zero</span>
-                            <span class="metric-label">Fixed Patterns</span>
+                            <span class="metric-label">Detection Risk</span>
                         </div>
                     </div>
                     <button class="btn-simulate" onclick="simulateProject(5)">
@@ -1377,10 +1377,14 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.risk_level *= <span class="code-string">0.85</span><br>
                         &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">return</span> <span class="code-func">min</span>(<span class="code-func">max</span>(self.risk_level, <span class="code-string">0.01</span>), <span class="code-string">0.99</span>)<br>
                         <br>
-                        <span class="code-kw">def</span> <span class="code-func">get_next_delay</span>():<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Throttles mission density as risk increases</span><br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;dynamic_min = <span class="code-string">15</span> + (self.risk_level * <span class="code-string">550</span>)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;pool = <span class="code-func">get_sliding_pool</span>(dynamic_min, <span class="code-string">1000</span>)
+                        <span class="code-kw">def</span> <span class="code-func">get_next_delay</span>(profile=<span class="code-string">"smooth"</span>):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Tiers: Hyper [0-150s] | Yield [150-400s] | Chaos [2000s+]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">if</span> self.risk_level > <span class="code-string">0.7</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start_idx = random.randint(<span class="code-string">300</span>, <span class="code-string">1200</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">else</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start_idx = random.randint(<span class="code-string">0</span>, <span class="code-string">60</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;pool = self.all_primes[start_idx : start_idx + <span class="code-string">15</span>]<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">return</span> <span class="code-func">poisson_sample</span>(random.choice(pool))
                     </div>
                 </div>
             </div>
