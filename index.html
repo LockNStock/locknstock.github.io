@@ -1056,6 +1056,7 @@
 [2] Short Drama Generative Pipeline (Kokoro/SVD)
 [3] YT-Monitor Copyright Rights Auditor (Pandas)
 [4] CareerScout Dynamic Tailor & RPA (Chrome MV3)
+[5] ChaosGuard Adaptive Bayesian Scheduler (Risk Control)
                     </div>
                     <div class="terminal-line">
                         <span class="terminal-prompt">cheng@mac ~ %</span>
@@ -1329,6 +1330,60 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Project 5 -->
+            <div class="project-block">
+                <div class="project-info">
+                    <div class="project-meta-tags">
+                        <span class="project-tag tech">Python 3</span>
+                        <span class="project-tag tech">Bayesian Inference</span>
+                        <span class="project-tag tech">Inhomogeneous Poisson</span>
+                        <span class="project-tag tech">Cybersecurity</span>
+                    </div>
+                    <h3>5. ChaosGuard: Adaptive Bayesian Scheduler</h3>
+                    <p>
+                        An environment-aware scheduling engine designed to mimic human cognitive irregularity. It utilizes a Dynamic Sliding Prime Window (168 primes) to eliminate statistical frequency peaks, coupled with a Bayesian Feedback Loop that "senses" server latency to dynamically adjust mission density in real-time.
+                    </p>
+                    <div class="project-metrics">
+                        <div class="metric-item">
+                            <span class="metric-value">168 Primes</span>
+                            <span class="metric-label">Entropy Source</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">Bayesian</span>
+                            <span class="metric-label">Risk Awareness</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">Zero</span>
+                            <span class="metric-label">Fixed Patterns</span>
+                        </div>
+                    </div>
+                    <button class="btn-simulate" onclick="simulateProject(5)">
+                        ▶ Run Environment-Aware Scheduler
+                    </button>
+                    <div class="simulator-feedback" id="feedback-5"></div>
+                </div>
+
+                <div class="project-visual">
+                    <div class="project-visual-header">
+                        <div class="project-tab-title"><span></span>chaos_governor.py — Risk Feedback</div>
+                    </div>
+                    <div class="project-visual-body">
+                        <span class="code-kw">def</span> <span class="code-func">observe_and_update</span>(actual_latency):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Bayesian update: Adjust risk beliefs based on latency</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">if</span> actual_latency > self.latency_baseline * <span class="code-string">2.5</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.risk_level = (self.risk_level * <span class="code-string">1.5</span>) + <span class="code-string">0.1</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">else</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.risk_level *= <span class="code-string">0.85</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-kw">return</span> <span class="code-func">min</span>(<span class="code-func">max</span>(self.risk_level, <span class="code-string">0.01</span>), <span class="code-string">0.99</span>)<br>
+                        <br>
+                        <span class="code-kw">def</span> <span class="code-func">get_next_delay</span>():<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Throttles mission density as risk increases</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;dynamic_min = <span class="code-string">15</span> + (self.risk_level * <span class="code-string">550</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;pool = <span class="code-func">get_sliding_pool</span>(dynamic_min, <span class="code-string">1000</span>)
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1567,6 +1622,22 @@
 [RPA Extension Engine] Form pre-fill active on Active Tab (Greenhouse Careers).
 [RPA Action] Triggered event prototype overriding. React virtual DOM state synced.
 [AI API Solver] Solved Sponsorship Question: No. All form fields pre-filled successfully!
+</div>`;
+            } else if (projectId === 5) {
+                simulatedInputText = 'python3 chaos_simulator_v7.py --sim-duration 8h';
+                feedback_box.innerHTML = "<strong>[Governor Active]</strong> Initializing Dynamic Prime Pool (168 seeds)... <span style='color:var(--primary)'>[READY]</span><br>» Detected environmental pressure: <span style='color:var(--primary)'>LATENCY SPIKE (4.2s)</span>.<br>» Bayesian Update: Risk posterior increased to <span style='color:var(--primary)'>88.4%</span>.<br>» Action: Shifting sliding window to high-delay primes (800s+); suppressing burst probability.";
+                terminalOutputMarkup = `
+<div class="terminal-line">
+    <span class="terminal-prompt">cheng@mac ~ %</span>
+    <span class="terminal-cmd">${simulatedInputText}</span>
+</div>
+<div class="terminal-output highlight">
+[Entropy Node] Seeding Primes Domain: [19, 31, 67, ... 997].
+[Bayesian Node] Baseline Latency: 1.5s. Monitoring active feedback...
+[Alert] Latency Spike: 4.82s. Probability of Detection (Prior: 0.05) -> Update.
+[Action] Throttling mission density. Risk Level: 88.4% 🔥
+[Chaos] Generating next delay: 1042.84s (Poisson Sampled).
+[Success] Entropy maintained. Detection edges eliminated.
 </div>`;
             }
 
