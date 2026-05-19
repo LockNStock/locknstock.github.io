@@ -1055,7 +1055,7 @@
 [1] Short Drama Views & LTV Forecaster (SciPy / ML)
 [2] Short Drama Generative Pipeline (Kokoro/SVD)
 [3] YT-Monitor Copyright Rights Auditor (Pandas)
-[4] CareerScout Dynamic Tailor & RPA (Chrome MV3)
+[4] AdPulse AI: Media Buying & Decay Optimizer (React)
 [5] ChaosGuard Adaptive Bayesian v9.0 (10k Primes)
                     </div>
                     <div class="terminal-line">
@@ -1278,55 +1278,51 @@
             <div class="project-block">
                 <div class="project-info">
                     <div class="project-meta-tags">
-                        <span class="project-tag tech">Chrome MV3 API</span>
-                        <span class="project-tag tech">Google Gemini API</span>
-                        <span class="project-tag tech">Python 3</span>
-                        <span class="project-tag tech">Vector Scoring</span>
-                        <span class="project-tag tech">Javascript (ES6)</span>
+                        <span class="project-tag tech">React 19 / Vite</span>
+                        <span class="project-tag tech">Google GenAI SDK</span>
+                        <span class="project-tag tech">Tailwind CSS v4</span>
+                        <span class="project-tag tech">TypeScript</span>
+                        <span class="project-tag tech">AdTech Analytics</span>
                     </div>
-                    <h3>4. CareerScout: AI Resume Tailoring & RPA Extension Suite</h3>
+                    <h3>4. AdPulse AI: Programmatic Media Buying & Creative Decay Optimizer</h3>
                     <p>
-                        A collaborative job-search engineering suite. Features a backend Python-based vector matcher (double-bag-of-words keyword weighting) that ranks master-profile bullet points dynamically, coupled with a native Chrome MV3 unpacked browser extension that intercepts DOM input prototypes to bypass React view-state sync constraints and auto-submits customized recruitment form queries.
+                        An AI-powered AdTech growth and optimization platform. Ingests raw media buying campaign analytics (Spend, CTR, CPC, ROAS) from programmatic DSPs (The Trade Desk, DV360), automatically flags creatives undergoing decay, and runs Gemini-powered optimization pipelines generating 3 optimized ad hook scripts and corresponding Runway Gen-3 text-to-video / Midjourney prompts.
                     </p>
                     <div class="project-metrics">
                         <div class="metric-item">
-                            <span class="metric-value">100%</span>
-                            <span class="metric-label">React View Sync</span>
+                            <span class="metric-value">+60% Lift</span>
+                            <span class="metric-label">Projected ROAS Lift</span>
                         </div>
                         <div class="metric-item">
-                            <span class="metric-value">4 Tracks</span>
-                            <span class="metric-label">Dynamic Matching</span>
+                            <span class="metric-value">Gemini 2.5</span>
+                            <span class="metric-label">Creative Optimizer</span>
                         </div>
                         <div class="metric-item">
-                            <span class="metric-value">&lt; 3s</span>
-                            <span class="metric-label">LLM Solve Time</span>
+                            <span class="metric-value">@google/genai</span>
+                            <span class="metric-label">SDK Pipeline</span>
                         </div>
                     </div>
                     <button class="btn-simulate" onclick="simulateProject(4)">
-                        ▶ Run Dynamic Tailor & RPA Form-Filler
+                        ▶ Run AI Creative Optimizer Dashboard
                     </button>
                     <div class="simulator-feedback" id="feedback-4"></div>
                 </div>
 
                 <div class="project-visual">
                     <div class="project-visual-header">
-                        <div class="project-tab-title"><span></span>content_script.js — React State Sync</div>
+                        <div class="project-tab-title"><span></span>geminiService.ts — GenAI SDK</div>
                     </div>
                     <div class="project-visual-body">
-                        <span class="code-comment">// Intercepts input setters to force React update state</span><br>
-                        <span class="code-kw">const</span> prototype = inputEl <span class="code-kw">instanceof</span> HTMLTextAreaElement <br>
-                        &nbsp;&nbsp;? HTMLTextAreaElement.prototype <br>
-                        &nbsp;&nbsp;: HTMLInputElement.prototype;<br>
-                        <span class="code-kw">const</span> descriptor = Object.<span class="code-func">getOwnPropertyDescriptor</span>(prototype, <span class="code-string">'value'</span>);<br>
-                        <span class="code-kw">if</span> (descriptor && descriptor.set) {<br>
-                        &nbsp;&nbsp;descriptor.set.<span class="code-func">call</span>(inputEl, value);<br>
-                        } <span class="code-kw">else</span> {<br>
-                        &nbsp;&nbsp;inputEl.value = value;<br>
-                        }<br>
-                        <span class="code-comment">// Dispatch standard events sequentially</span><br>
-                        inputEl.<span class="code-func">dispatchEvent</span>(<span class="code-kw">new</span> <span class="code-func">Event</span>(<span class="code-string">'input'</span>, { bubbles: <span class="code-kw">true</span> }));<br>
-                        inputEl.<span class="code-func">dispatchEvent</span>(<span class="code-kw">new</span> <span class="code-func">Event</span>(<span class="code-string">'change'</span>, { bubbles: <span class="code-kw">true</span> }));<br>
-                        inputEl.<span class="code-func">dispatchEvent</span>(<span class="code-kw">new</span> <span class="code-func">Event</span>(<span class="code-string">'blur'</span>, { bubbles: <span class="code-kw">true</span> }));
+                        <span class="code-comment">// Call official Google GenAI SDK to diagnose decay</span><br>
+                        <span class="code-kw">const</span> response = <span class="code-kw">await</span> ai.models.<span class="code-func">generateContent</span>({<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model: modelName,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;contents: <span class="code-string">`Analyze this decaying ad payload:\n${jsonInput}`</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;config: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;systemInstruction: SYSTEM_INSTRUCTION,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temperature: <span class="code-string">0.7</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        });<br>
+                        <span class="code-kw">return</span> { text: response.text, usage: response.usageMetadata };
                     </div>
                 </div>
             </div>
@@ -1613,19 +1609,20 @@
 [Output] Consolidated reports exported successfully: consolidated_report_master_merged.md
 </div>`;
             } else if (projectId === 4) {
-                simulatedInputText = 'python3 career_scout_suite.py --apply --tailor "Short Drama"';
-                feedback_box.innerHTML = "<strong>[Engine Active]</strong> Detected track match: <span style='color:var(--primary)'>PRODUCTION (Score: 14.5)</span>. Hydrating 12 matching tool portfolios...<br><strong>[RPA Active]</strong> Injected Chrome MV3 content script. Intercepted HTMLInputElement prototype to sync React/Vue view-state.<br><strong>[AI API Solver]</strong> Solved Sponsorship Question: <span style='color:var(--success)'>FILL 'NO'</span>.";
+                simulatedInputText = 'npm run dev --project "adpulse-ai"';
+                feedback_box.innerHTML = "<strong>[Decay Optimizer Active]</strong> Ingested 3 programmatic creative logs... <span style='color:var(--primary)'>[OK]</span><br>» Isolated creative decay: <span style='color:var(--danger)'>ceo_alpha_aggressive_hook_v3 (ROAS: 1.35x)</span>.<br>» Compiled 3 optimized script variations using Google GenAI SDK.<br>» Synthesized visual prompt arrays for Runway Gen-3 text-to-video.";
                 terminalOutputMarkup = `
 <div class="terminal-line">
     <span class="terminal-prompt">cheng@mac ~ %</span>
     <span class="terminal-cmd">${simulatedInputText}</span>
 </div>
-<div class="terminal-output highlight">
-[ResuTailor Engine] Assembling custom resume for PRODUCTION track:
-[✓] Selected 12 relevant tool profiles. Evaluated 95.4% JD overlap score.
-[RPA Extension Engine] Form pre-fill active on Active Tab (Greenhouse Careers).
-[RPA Action] Triggered event prototype overriding. React virtual DOM state synced.
-[AI API Solver] Solved Sponsorship Question: No. All form fields pre-filled successfully!
+<div class="terminal-output success">
+[AdPulse Ingest] Loaded campaigns_performance_stats.db (SQLite3).
+[Attribution Audit] Flagged creative decay: "ceo_alpha_aggressive_hook_v3" (ROAS dropped 22% in 72 hours).
+[Gemini API Node] Generating copy variations utilizing gemini-2.5-pro...
+[SUCCESS] Generated 3 hook script optimization angles.
+[Runway Prompt Solver] Outputting Runway Gen-3 camera prompts: [✓] CU smirk / scissor cut veil.
+[Vercel Deploy] Local React 19 application ready: http://localhost:3000/
 </div>`;
             } else if (projectId === 5) {
                 simulatedInputText = 'python3 chaos_simulator_v9.py --profile "contrast"';
